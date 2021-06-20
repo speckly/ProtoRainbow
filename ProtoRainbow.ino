@@ -247,7 +247,7 @@ void draw_face(const uint8_t ani[], int hueOffset){
   for (int r = 0; r < 2048; r++){ //mirrored face
     if (ani[r] != 0){
       readcolors = hue2rgb(colorMap[r % 64]);
-      display.drawPixelRGB888(r % imageWidth + 64, r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
+      display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1, r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
 }
