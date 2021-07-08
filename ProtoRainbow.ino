@@ -1,10 +1,7 @@
-/*speck snazzagen 2021
-linktr.ee/speckles
 
-this is a program to add a rainbow scroll to a face array consisting of booleans to indicate whether the pixel is lit up or not
-export your face in LEDMatrix studio in 32bits comma separated
-you may export your face in any color but take note that rainbow pixels will be drawn over pixels that are not black, (0, 0, 0)
-*/
+/*********
+   By speck MUhahaha
+  *********/
 
 #include <Arduino.h>
 #include "SPI.h"
@@ -22,10 +19,9 @@ you may export your face in any color but take note that rainbow pixels will be 
 #define P_E 15
 #define P_OE 2
 
-//WRITE YOUR NUMBER OF WS2812B PIXELS HERE
-//REPLACE 0
-CRGB matrixleds[0];
-int matrixcount = 0;
+//replace 197 with your number of leds (just my number)
+CRGB matrixleds[197];
+int ledcount = 197;
 
 int hueOffset = 0;
 int hue = 0;
@@ -34,18 +30,8 @@ FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, 16, 16, 1, 1,
     NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG + 
     NEO_TILE_TOP + NEO_TILE_LEFT +  NEO_TILE_PROGRESSIVE);
 
-
-hw_timer_t * timer = NULL;
-portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
-TaskHandle_t Task1;
-TaskHandle_t Task2;
-#define matrix_width 128
-#define matrix_height 32
-// This defines the 'on' time of the display is us. The larger this number,
-// the brighter the display. If too large the ESP will crash
-uint8_t display_draw_time=10; //10-50 is usually fine
-// PxMATRIX display(matrix_width,matrix_height,P_LAT, P_OE,P_A,P_B,P_C);
-PxMATRIX display(128,32,P_LAT, P_OE,P_A,P_B,P_C,P_D);
+const uint16_t colors[] = {
+  matrix->Color(255, 0, 0), matrix->Color(0, 255, 0), matrix->Color(0, 0, 255), matrix->Color(255, 0, 200), matrix->Color(0, 255, 255) , matrix->Color(255, 255, 0), matrix->Color(70, 255, 200)};
 
 const uint8_t static PROGMEM test[] = {
                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -221,6 +207,23 @@ const uint8_t static PROGMEM blink4[] = {
                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                        };
 
+hw_timer_t * timer = NULL;
+portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+TaskHandle_t Task1;
+TaskHandle_t Task2;
+
+// Pins for LED MATRIX
+
+#define matrix_width 128
+#define matrix_height 32
+
+// This defines the 'on' time of the display is us. The larger this number,
+// the brighter the display. If too large the ESP will crash
+uint8_t display_draw_time=10; //10-50 is usually fine
+
+// PxMATRIX display(matrix_width,matrix_height,P_LAT, P_OE,P_A,P_B,P_C);
+PxMATRIX display(128,32,P_LAT, P_OE,P_A,P_B,P_C,P_D);
+BluetoothSerial SerialBT;
 struct colors {
   uint8_t CRed;
   uint8_t CGreen;
@@ -268,73 +271,88 @@ struct colors hue2rgb(int hue){
 
 
 int colorMap[64]; //this is an array containing hue values, which is mapped every color shift based on hueOffset, 64 elements
-int loadPixel[3];
+int loadPixel[3]; //read values from function
 struct colors readcolors;
 void draw_face(const uint8_t ani[], int hueOffset){
   int imageHeight = 32;
   int imageWidth = 64;
  
-  //x = 0 to 64 (1 face, turns out to be the right)
+  //hue map
   for (int i = 0; i < imageWidth; i++)
   {
     hue = ((i + hueOffset) * (360/imageWidth)) % 360;
     colorMap[i] = hue;
   } 
-  for (int r = 0; r < 2048; r++){ //draw pixel 
-    if (ani[r] != 0){
+
+  //draw pixel on panel 1
+  for (int r = 0; r < 2048; r++){ 
+    if (ani[r] == 1){
       readcolors = hue2rgb(colorMap[r % 64]);
-      display.drawPixelRGB888(r % imageWidth, r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
+      display.drawPixelRGB888(r % imageWidth , r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
-  //this loop repeats again for the second face, x = 63 + 64 in the first pixel to the left and decreases to the right
+  //panel 2, x overflows from 64 onwards like they are a single face
   for (int r = 0; r < 2048; r++){ //mirrored face
-    if (ani[r] != 0){
+    if (ani[r] == 1){
       readcolors = hue2rgb(colorMap[r % 64]);
       display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1, r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
 }
 
-void Task2code( void * pvParameters ){   // function by jtingf
- 
-  for(;;){
-  delay(1); 
-  display.display(50); 
-
-  }
-}
-
-//RAINBOW SCROLLING FOR WS2812BS
+//rainbow scroll for WS2812B
 void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int counts) {     
 // uint8_t thisHue = beatsin8(thisSpeed,0,255);
   for (int i = 0; i < (counts + 1); i++){            
     uint8_t thisHue = beat8(thisSpeed,255);                   
-    fill_rainbow(matrixleds, matrixcount, thisHue, deltaHue);   
+    fill_rainbow(matrixleds, ledcount, thisHue, deltaHue);   
     delay(framedelay);        
     FastLED.show();
   }
 }
-void setup() { //PLEASE INITIALIZE YOUR OWN SETTINGS
+
+void Task2code( void * pvParameters ){   //function by jtingf
+ 
+  for(;;){
+  delay(1); 
+  display.display(50); //was60  
+
+  }
+}
+
+const int micPin = 33;
+void setup() {
+  pinMode(micPin, INPUT);
+  Serial.begin(9600);
+  setCpuFrequencyMhz(160);
  xTaskCreatePinnedToCore(
-                    Task2code,  
-                    "Task2",     
+                    Task2code,   
+                    "Task2",      
                     11000,       
                     NULL,        
-                    24,         
-                    &Task2,      
+                    24,          
+                    &Task2,     
                     0);         
   display.begin(16);
   display.setMuxDelay(1,1,1,1,1);
   display.setPanelsWidth(2);
-  display.setFastUpdate(true); //originally false but idk if it makes any difference
-  FastLED.addLeds<WS2812,4>(matrixleds, matrixcount);  // "17" is the pin you connect your WS2812 matrix to !
-  display.setBrightness(155); //HUB75 BRIGHTNESS
-  FastLED.setBrightness(155); //WS2812B BRIGHTNESS
+  display.setFastUpdate(true);
+  FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  // "4" is the pin you connect your WS2812 matrix to !
+  /*
+  matrix->begin();
+  matrix->setTextWrap(false);
+  matrix->setRotation(1);
+  matrix->setBrightness(255);
+   matrix->show();
+   */
+  display.setBrightness(155);
+  FastLED.setBrightness(155);
 }
 
-int loopEvent = 2; //event every loopEvent cycles
-int frame_delay = 10; //time in ms in between each color switch and frame
-
+int digitalBoop = 0;
+int loopEvent = 2; //for every nth cycle, event
+int frame_delay = 10; //time in ms in between each color switch
+int pitch = 0;
 void loop() {
   hueOffset += 1; 
   if (hueOffset == (72*loopEvent + 1)){ //insert event on the (loopEvent)th RGB cycle, here it blinks on every third cycle
@@ -360,7 +378,6 @@ void loop() {
         draw_face(blink4, h);
         rainbow_wave(50, 10, 10, 8);
         break;
-        
       }
     }
     hueOffset = 0;
