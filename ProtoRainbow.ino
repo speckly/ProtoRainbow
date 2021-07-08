@@ -311,7 +311,7 @@ void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int count
   }
 }
 
-void Task2code( void * pvParameters ){   //function by jtingf
+void Task2code( void * pvParameters ){   //function by jtingf, idk what it kind of does 
  
   for(;;){
   delay(1); 
@@ -320,9 +320,7 @@ void Task2code( void * pvParameters ){   //function by jtingf
   }
 }
 
-const int micPin = 33;
 void setup() {
-  pinMode(micPin, INPUT);
   Serial.begin(9600);
   setCpuFrequencyMhz(160);
  xTaskCreatePinnedToCore(
@@ -349,10 +347,8 @@ void setup() {
   FastLED.setBrightness(155);
 }
 
-int digitalBoop = 0;
 int loopEvent = 2; //for every nth cycle, event
 int frame_delay = 10; //time in ms in between each color switch
-int pitch = 0;
 void loop() {
   hueOffset += 1; 
   if (hueOffset == (72*loopEvent + 1)){ //insert event on the (loopEvent)th RGB cycle, here it blinks on every third cycle
