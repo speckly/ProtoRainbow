@@ -13,6 +13,5 @@ This program draws animated rainbow drawings based on a predefined 2D array, on 
 I usually use LEDMatrixStudio to export it from a drawn canvas, then replace the arrays in the example code, you might want to change some code in the function ```loop()``` so it doesnt crash from missing variables or it works as however you wish
 
 Currently there is 1 static face and a 4 frame animation and back is played every 2 rainbow loops included in your example code
-
-https://user-images.githubusercontent.com/60218942/125281474-d83da080-e348-11eb-8d4f-f428a5fc27a5.mp4
+![ProtoRainbowDemo](https://user-images.githubusercontent.com/60218942/125281675-189d1e80-e349-11eb-9692-3ab314db534a.gif)
 
