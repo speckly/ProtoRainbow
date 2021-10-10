@@ -1,7 +1,9 @@
-
+/*********
+   By speck MUhahaha
+  *********/
 #include "ProtoRainbow.h"
-#include "Frames.h"
 #include "RainbowSettings.h"
+#include "Frames.h"
 #include <Arduino.h>
 #include "Adafruit_GFX.h"
 #include "Framebuffer_GFX.h"      
@@ -34,23 +36,29 @@ TaskHandle_t Task2;
 // the brighter the display. If too large the ESP will crash
 uint8_t display_draw_time=10; //10-50 is usually fine
 
-// PxMATRIX display(matrix_width,matrix_height,P_LAT, P_OE,P_A,P_B,P_C);
-PxMATRIX display(128,32,P_LAT, P_OE,P_A,P_B,P_C,P_D);
 
+void useless_px(){
+  for (int i = 0; i < 37; i++){
+    matrixleds[i] = CRGB(0, 0, 0);
+  }
+  for (int i = 160; i < 191; i++){
+    matrixleds[i] = CRGB(0, 0, 0);
+  }
+}
 
-//rainbow scroll for WS2812B, beatsin is a sine scroll
+//rainbow scroll for WS2812B
 void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int counts) {     
 // uint8_t thisHue = beatsin8(thisSpeed,0,255);
   for (int i = 0; i < (counts + 1); i++){            
     uint8_t thisHue = beat8(thisSpeed,255);                   
     fill_rainbow(matrixleds, ledcount, thisHue, deltaHue);   
     delay(framedelay);        
+    useless_px();
     FastLED.show();
   }
 }
 
-void Task2code( void * pvParameters ){   //function by jtingf, idk what it kind of does 
- 
+void Task2code( void * pvParameters ){  
   for(;;){
   delay(1); 
   display.display(50); //was60  
@@ -69,6 +77,7 @@ void setup() {
     24,          
     &Task2,     
     0);         
+  Serial.begin(9600);
   display.begin(16);
   display.setMuxDelay(1,1,1,1,1);
   display.setPanelsWidth(2);
@@ -112,7 +121,7 @@ void loop() {
 
   }
   else{
-    draw_face(test, hueOffset);
+    draw_face(def, hueOffset);
     rainbow_wave(50, 10, frame_delay, 1);
   }
 }
