@@ -87,7 +87,7 @@ void setup() {
 
 
 void loop() {
-  display.clearDisplay();
+  //display.clearDisplay();
   hueOffset += 1; 
   if (hueOffset == (72*loopEvent + 1)){ //insert event on the (loopEvent)th RGB cycle
     //your event goes here, here it blinks on every second cycle
