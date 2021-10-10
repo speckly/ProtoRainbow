@@ -1,4 +1,16 @@
+#pragma once
+#include "PxMatrix.h"
 #include "RainbowSettings.h"
+
+#define P_LAT 22  
+#define P_A 19
+#define P_B 23
+#define P_C 18
+#define P_D 5
+#define P_E 15
+#define P_OE 2
+PxMATRIX display(128,32,P_LAT, P_OE,P_A,P_B,P_C,P_D);
+
 
 uint8_t newR;
 uint8_t newG;
@@ -6,12 +18,14 @@ uint8_t newB;
 
 int colorMap[64]; //this is an array containing hue values, which is mapped every color shift based on hueOffset, 64 elements
 int loadPixel[3]; //singular pixel memory
+int hue = 0;
 
 struct colors {
   uint8_t CRed;
   uint8_t CGreen;
   uint8_t CBlue;
 };
+
 
 struct colors hue2rgb(int hue){
   newR = 0;
@@ -51,9 +65,7 @@ struct colors hue2rgb(int hue){
 }
 
 void draw_face(const uint8_t ani[], int hueOffset){
-  int imageHeight = 32;
-  int imageWidth = 64;
- 
+  struct colors readcolors;
   //create the hue map
   for (int i = 0; i < imageWidth; i++)
   {
@@ -72,7 +84,7 @@ void draw_face(const uint8_t ani[], int hueOffset){
   for (int r = 0; r < pixelCount; r++){ //mirrored face
     if (ani[r] == 1){
       readcolors = hue2rgb(colorMap[r % 64]);
-      display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1, r / imageWidth + remov, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
+      display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1, r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
 }
