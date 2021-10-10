@@ -115,7 +115,9 @@ void loop() {
         break;
       }
     }
-    hueOffset = 7;
+    hueOffset = 4;
+    display.clearDisplay();
+    
 
   }
   else{
