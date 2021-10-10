@@ -22,7 +22,6 @@ CRGB matrixleds[197];
 int ledcount = 197;
 int hueOffset = 0;
 
-
 hw_timer_t * timer = NULL;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 TaskHandle_t Task1;
@@ -57,8 +56,8 @@ void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int count
     FastLED.show();
   }
 }
-
-void Task2code( void * pvParameters ){  
+void Task2code( void * pvParameters ){   //function by jtingf, idk what it kind of does 
+ 
   for(;;){
   delay(1); 
   display.display(50); //was60  
@@ -77,12 +76,11 @@ void setup() {
     24,          
     &Task2,     
     0);         
-  Serial.begin(9600);
   display.begin(16);
   display.setMuxDelay(1,1,1,1,1);
   display.setPanelsWidth(2);
   display.setFastUpdate(true);
-  FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  
+  FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  // "4" is the pin you connect your WS2812 matrix to !
   display.setBrightness(155);
   FastLED.setBrightness(155);
 }
@@ -99,25 +97,25 @@ void loop() {
         case 0:
         case 6:
         draw_face(blink1, h);
-        rainbow_wave(50, 10, frame_delay, 4); //this function serves as a delay but to include the scrolling of WS2812B's, since there aint async or maybe im stupid
+        rainbow_wave(50, 10, animation_delay, 4); //this function serves as a delay but to include the scrolling of WS2812B's, since there aint async or maybe im stupid
         break;
         case 1:
         case 5:
         draw_face(blink2, h);
-        rainbow_wave(50, 10, frame_delay, 4);
+        rainbow_wave(50, 10, animation_delay, 4);
         break;
         case 2:
         case 4:
         draw_face(blink3, h);
-        rainbow_wave(50, 10, frame_delay, 4);
+        rainbow_wave(50, 10, animation_delay, 4);
         break;
         case 3:
         draw_face(blink4, h);
-        rainbow_wave(50, 10, frame_delay, 8);
+        rainbow_wave(50, 10, animation_delay, 8);
         break;
       }
     }
-    hueOffset = 0;
+    hueOffset = 7;
 
   }
   else{
