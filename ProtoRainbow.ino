@@ -82,7 +82,7 @@ void setup() {
   display.setMuxDelay(1,1,1,1,1);
   display.setPanelsWidth(2);
   display.setFastUpdate(true);
-  FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  // "4" is the pin you connect your WS2812 matrix to !
+  FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  
   display.setBrightness(155);
   FastLED.setBrightness(155);
 }
