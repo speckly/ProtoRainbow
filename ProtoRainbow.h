@@ -1,6 +1,7 @@
 #pragma once
 #include "PxMatrix.h"
 #include "RainbowSettings.h"
+#include <math.h>
 
 #define P_LAT 22  
 #define P_A 19
@@ -19,6 +20,8 @@ uint8_t newB;
 int colorMap[64]; //this is an array containing hue values, which is mapped every color shift based on hueOffset, 64 elements
 int loadPixel[3]; //singular pixel memory
 int hue = 0;
+int xsine_offset = 0;
+int ysine_offset = 0;
 
 struct colors {
   uint8_t CRed;
@@ -72,19 +75,23 @@ void draw_face(const uint8_t ani[], int hueOffset){
     hue = (wavelength * (i + hueOffset) * (360/imageWidth)) % 360;
     colorMap[i] = hue;
   } 
+  xsine_offset = round(sin((((xsine_period*hueOffset*360/(72*loopEvent))+xsine_phase)%360 )*(M_PI/180))*xsine_amp + xsine_amp);
+  ysine_offset = round(sin(((ysine_period*hueOffset*360/(72*loopEvent))%360)*(M_PI/180))*ysine_amp);
 
   //draw pixels on panel 1
+  display.clearDisplay();
   for (int r = 0; r < pixelCount; r++){ 
     if (ani[r] == 1){
       readcolors = hue2rgb(colorMap[r % 64]);
-      display.drawPixelRGB888(r % imageWidth , r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
+      display.drawPixelRGB888(r % imageWidth - xsine_offset, (r / imageWidth) + ysine_offset, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
   //panel 2, x overflows from 64, since we defined one buffer
   for (int r = 0; r < pixelCount; r++){ //mirrored face
     if (ani[r] == 1){
       readcolors = hue2rgb(colorMap[r % 64]);
-      display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1, r / imageWidth, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
+      display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1 + xsine_offset, (r / imageWidth) + ysine_offset, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
+  
 }
