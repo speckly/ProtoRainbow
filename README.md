@@ -1,7 +1,3 @@
-28/7- A little note but I apologise for uploading this repository in a single file
-By exposing my failure in a public readme like this
-I can tell myself to seperate this into another header
-:)
 
 # ProtoRainbow
 This program draws animated rainbow drawings based on a predefined 2D array, on dual 64X32pixels HUB75 LED matrices using the [PxMatrix](https://github.com/2dom/PxMatrix) library . Suitable for protogen suit makers.
