@@ -1,3 +1,6 @@
+//ProtoRainbow library by speck 
+//https://linktr.ee/speckles
+
 #pragma once
 #include "PxMatrix.h"
 #include "RainbowSettings.h"
@@ -93,5 +96,4 @@ void draw_face(const uint8_t ani[], int hueOffset){
       display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1 + xsine_offset, (r / imageWidth) + ysine_offset, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
-  
 }
