@@ -1,5 +1,5 @@
 /*********
-   By speck MUhahaha
+   By speck and jtingf MUhahaha
   *********/
 #include "ProtoRainbow.h"
 #include "RainbowSettings.h"
@@ -56,7 +56,7 @@ void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int count
     FastLED.show();
   }
 }
-void Task2code( void * pvParameters ){   //function by jtingf, idk what it kind of does 
+void Task2code( void * pvParameters ){   
  
   for(;;){
   delay(1); 
@@ -81,8 +81,8 @@ void setup() {
   display.setPanelsWidth(2);
   display.setFastUpdate(true);
   FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  // "4" is the pin you connect your WS2812 matrix to !
-  display.setBrightness(155);
-  FastLED.setBrightness(155);
+  display.setBrightness(155); //this is where you set your brightness for HUB75
+  FastLED.setBrightness(155); //and for WS2812
 }
 
 
