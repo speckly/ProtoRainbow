@@ -35,16 +35,6 @@ TaskHandle_t Task2;
 // the brighter the display. If too large the ESP will crash
 uint8_t display_draw_time=10; //10-50 is usually fine
 
-
-void useless_px(){
-  for (int i = 0; i < 37; i++){
-    matrixleds[i] = CRGB(0, 0, 0);
-  }
-  for (int i = 160; i < 191; i++){
-    matrixleds[i] = CRGB(0, 0, 0);
-  }
-}
-
 //rainbow scroll for WS2812B
 void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int counts) {     
 // uint8_t thisHue = beatsin8(thisSpeed,0,255);
@@ -57,11 +47,9 @@ void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int count
   }
 }
 void Task2code( void * pvParameters ){   
- 
   for(;;){
   delay(1); 
   display.display(50); //was60  
-
   }
 }
 
@@ -117,8 +105,6 @@ void loop() {
     }
     hueOffset = 4;
     display.clearDisplay();
-    
-
   }
   else{
     draw_face(def, hueOffset);
