@@ -18,6 +18,6 @@ Currently there is 1 static face and an animation 4x2 frames long is played ever
 ## Extras
 There is support for sine animations in the library and its properties (period, amp, offset)
 
-##ProtoRainbow Demo
+## ProtoRainbow Demo
 ![ProtoRainbowDemo](https://user-images.githubusercontent.com/60218942/125281675-189d1e80-e349-11eb-9692-3ab314db534a.gif)
 
