@@ -23,8 +23,6 @@ uint8_t newB;
 int colorMap[64]; //this is an array containing hue values, which is mapped every color shift based on hueOffset, 64 elements
 int loadPixel[3]; //singular pixel memory
 int hue = 0;
-int xsine_offset = 0;
-int ysine_offset = 0;
 
 struct colors {
   uint8_t CRed;

@@ -9,7 +9,8 @@
 #include "Framebuffer_GFX.h"      
 #include "PxMatrix.h"
 #include "FastLED.h"
-#define P_LAT 22  
+#define P_LAT 22  //d'
+`2
 #define P_A 19
 #define P_B 23
 #define P_C 18
@@ -18,8 +19,7 @@
 #define P_OE 2
 
 //replace 197 with your number of leds (just my number)
-CRGB matrixleds[197];
-int ledcount = 197;
+CRGB matrixleds[ledcount];
 int hueOffset = 0;
 
 hw_timer_t * timer = NULL;
@@ -41,8 +41,7 @@ void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int count
   for (int i = 0; i < (counts + 1); i++){            
     uint8_t thisHue = beat8(thisSpeed,255);                   
     fill_rainbow(matrixleds, ledcount, thisHue, deltaHue);   
-    delay(framedelay);        
-    useless_px();
+    delay(framedelay);
     FastLED.show();
   }
 }
