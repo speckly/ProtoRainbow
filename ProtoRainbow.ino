@@ -9,18 +9,15 @@
 #include "Framebuffer_GFX.h"      
 #include "PxMatrix.h"
 #include "FastLED.h"
-#define P_LAT 22  //d'
-`2
+#define P_LAT 22  //d'`2
 #define P_A 19
 #define P_B 23
 #define P_C 18
 #define P_D 5
 #define P_E 15
 #define P_OE 2
-
-//replace 197 with your number of leds (just my number)
 CRGB matrixleds[ledcount];
-int hueOffset = 0;
+
 
 hw_timer_t * timer = NULL;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
@@ -39,10 +36,10 @@ uint8_t display_draw_time=10; //10-50 is usually fine
 void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int counts) {     
 // uint8_t thisHue = beatsin8(thisSpeed,0,255);
   for (int i = 0; i < (counts + 1); i++){            
-    uint8_t thisHue = beat8(thisSpeed,255);                   
-    fill_rainbow(matrixleds, ledcount, thisHue, deltaHue);   
+    // uint8_t thisHue = beat8(thisSpeed,255);                   
+    // fill_rainbow(matrixleds, ledcount, thisHue, deltaHue);   
     delay(framedelay);
-    FastLED.show();
+    // FastLED.show();
   }
 }
 void Task2code( void * pvParameters ){   
@@ -68,8 +65,14 @@ void setup() {
   display.setPanelsWidth(2);
   display.setFastUpdate(true);
   FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  // "4" is the pin you connect your WS2812 matrix to !
-  display.setBrightness(155); //this is where you set your brightness for HUB75
-  FastLED.setBrightness(155); //and for WS2812
+  display.setBrightness(MATRIX_BRIGHTNESS); //this is where you set your brightness for HUB75
+  FastLED.setBrightness(LED_BRIGHTNESS); //and for WS2812
+  for (int i = 0; i < ledcount; i++) {
+    matrixleds[i] = CRGB::Red;
+  }
+
+  // Update the LEDs to display the new color
+  FastLED.show();
 }
 
 
