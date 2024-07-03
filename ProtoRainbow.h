@@ -1,5 +1,5 @@
-//ProtoRainbow library by speck 
-//https://linktr.ee/speckles
+// ProtoRainbow library
+// https://github.com/speckly
 
 #pragma once
 #include "PxMatrix.h"
