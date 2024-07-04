@@ -1,5 +1,5 @@
 #pragma once
-const int ledcount = 80; // LED count for WS2812B
+const int ledcount = 150; // LED count for WS2812B
 const int MATRIX_BRIGHTNESS = 255;
 const int LED_BRIGHTNESS = 60;
 const int imageHeight = 32; //Your matrix height
