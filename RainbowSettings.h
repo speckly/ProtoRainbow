@@ -1,5 +1,5 @@
 #pragma once
-const                            int ledcount = 80; // LED count for WS2812B
+const int ledcount = 80; // LED count for WS2812B
 int imageHeight = 32; //Your matrix height
 int imageWidth = 64; //Your matrix width
 int pixelCount = imageHeight * imageWidth;
