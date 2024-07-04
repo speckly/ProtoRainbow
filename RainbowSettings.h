@@ -1,8 +1,11 @@
 #pragma once
 const int ledcount = 80; // LED count for WS2812B
-int imageHeight = 32; //Your matrix height
-int imageWidth = 64; //Your matrix width
-int pixelCount = imageHeight * imageWidth;
+const int MATRIX_BRIGHTNESS = 255;
+const int LED_BRIGHTNESS = 60;
+const int imageHeight = 32; //Your matrix height
+const int imageWidth = 64; //Your matrix width
+const int pixelCount = imageHeight * imageWidth;
+int hueOffset = 0;
 int wavelength = 2; //Value of rgb waves shown in one frame, idk how to explain lol, default value is 1
 int frame_delay = 10;
 int animation_delay = 4;

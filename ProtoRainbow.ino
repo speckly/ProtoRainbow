@@ -9,8 +9,7 @@
 #include "Framebuffer_GFX.h"      
 #include "PxMatrix.h"
 #include "FastLED.h"
-#define P_LAT 22  //d'
-`2
+#define P_LAT 22
 #define P_A 19
 #define P_B 23
 #define P_C 18
@@ -18,9 +17,7 @@
 #define P_E 15
 #define P_OE 2
 
-//replace 197 with your number of leds (just my number)
 CRGB matrixleds[ledcount];
-int hueOffset = 0;
 
 hw_timer_t * timer = NULL;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
@@ -68,8 +65,8 @@ void setup() {
   display.setPanelsWidth(2);
   display.setFastUpdate(true);
   FastLED.addLeds<WS2812,4>(matrixleds, ledcount);  // "4" is the pin you connect your WS2812 matrix to !
-  display.setBrightness(155); //this is where you set your brightness for HUB75
-  FastLED.setBrightness(155); //and for WS2812
+  display.setBrightness(MATRIX_BRIGHTNESS); //this is where you set your brightness for HUB75
+  FastLED.setBrightness(LED_BRIGHTNESS); //and for WS2812
 }
 
 
