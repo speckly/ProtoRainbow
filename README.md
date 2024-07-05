@@ -2,6 +2,15 @@
 # ProtoRainbow
 This library draws animated rainbow drawings based on a predefined 2D array, on dual 64X32pixels HUB75 LED matrices using the [PxMatrix](https://github.com/2dom/PxMatrix) library. A personal project but suitable for protogen suit makers.
 
+# Setup
+> ![WARNING]
+> This project assumes that you have 2 HUB75 matrices and you use WS2812B LEDs
+
+In Arduino, install these libraries:
+- PxMatrix
+- Adafruit GFX Library with Adafruit BusIO
+- Framebuffer_GFX with FastLED
+
 ## Face array requirements
 - Each element of the array represents the state of the pixel, if the element is zero, the pixel will be turned off. A rainbow pixel is drawn if not 0 (I prefer to use a decimal value of 1 because the visual is clearer in the IDE)
 - Must be facing to the right or else both sides will be drawn facing the wrong way
