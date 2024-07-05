@@ -29,9 +29,10 @@ TaskHandle_t Task2;
 #define matrix_width 128
 #define matrix_height 32
 
-// This defines the 'on' time of the display is us. The larger this number,
-// the brighter the display. If too large the ESP will crash
-uint8_t display_draw_time = 10; // 10-50 is usually fine
+// This defines the 'on' time of the display is us. The larger this number, the brighter the display
+uint8_t display_draw_time = 30; // 10-50 is usually fine
+uint8_t current_face = def;
+bool animate = true;
 
 // rainbow scroll for WS2812B
 void rainbow_wave(uint8_t thisSpeed, uint8_t deltaHue, int framedelay, int counts)
@@ -83,16 +84,28 @@ void loop()
 		if (result.first == "matrix_brightness"){
 			display.setBrightness(matrix_brightness);
 
-		} else if (result.second == "led_brightness") {
+		} else if (result.first == "led_brightness") {
 			FastLED.setBrightness(led_brightness);
+		} else if (result.first == "sad") {
+			current_face = sad;
+			animate = false;
+		} else if (result.first == "happy") {
+			current_face = cheer;
+			animate = true;
+		} else if (result.first == "crispity") {
+			current_face = crispity;
+			animate = false;
+		} else if (result.first == "default") {
+			current_face = def;
+			animate = true;
 		}
         Serial.print("Received: ");
         Serial.print(result.first);
         Serial.print(" = ");
         Serial.println(result.second);
     }
-	hueOffset += 1; // insert event on the (loop_event)th RGB cycle TODO: what is 72???
-	if (hueOffset == (72 * loop_event + 1)) { 
+	hueOffset += 1; // insert event but itson the (loop_event)th RGB cycle TODO: what is 72???
+	if (animate && hueOffset == (72 * loop_event + 1)) { 
 		// your event goes here, here it blinks on every second cycle
 		for (int h = 0; h < 7; h++)
 		{
@@ -125,7 +138,10 @@ void loop()
 	}
 	else
 	{
-		draw_face(cheer, hueOffset);
+		draw_face(current_face, hueOffset);
 		rainbow_wave(50, 10, frame_delay, 1);
+		if (!animate && hueOffset == 72) {
+			hueOffset = 0;
+		}
 	}
 }
