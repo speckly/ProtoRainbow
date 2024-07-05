@@ -1,7 +1,5 @@
 #pragma once
-#include <unordered_map>
 
-extern std::unordered_map<String, int*> settingsMap;
 const int ledcount = 150; // LED count for WS2812B
 const int imageHeight = 32; //Your matrix height
 const int imageWidth = 64; //Your matrix width

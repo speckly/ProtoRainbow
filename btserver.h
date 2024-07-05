@@ -13,15 +13,6 @@ Warning: This is very insecure and is 100% susceptible to MITM or spoofing
 #endif
 
 BluetoothSerial SerialBT;
-std::unordered_map<String, int*> settingsMap = {
-    {"matrix_brightness", &matrix_brightness},
-    {"led_brightness", &led_brightness},
-    {"wavelength", &wavelength},
-    {"frame_delay", &frame_delay},
-    {"loop_event", &loop_event},
-    {"xsine_amp", &xsine_amp},
-    {"ysine_amp", &ysine_amp}
-};
 
 std::pair<String, int> bt_loop() {
     if (SerialBT.available()) {
@@ -32,8 +23,23 @@ std::pair<String, int> bt_loop() {
         // Assume all values are int
         int value = valueString.toInt();
 
-        if (settingsMap.find(variableName) != settingsMap.end()) {
-            *(settingsMap[variableName]) = value;
+        if (variableName == "matrix_brightness") {
+            matrix_brightness = value;
+        } else if (variableName == "led_brightness") {
+            led_brightness = value;
+        } else if (variableName == "wavelength") {
+            wavelength = value;
+        } else if (variableName == "frame_delay") {
+            frame_delay = value;
+        } else if (variableName == "loop_event") {
+            loop_event = value;
+        } else if (variableName == "xsine_amp") {
+            xsine_amp = value;
+        } else if (variableName == "ysine_amp") {
+            ysine_amp = value;
+        } else {
+            // Handle unknown variableName case
+            return std::make_pair("", -1);
         }
 
         return std::make_pair(variableName, value);
