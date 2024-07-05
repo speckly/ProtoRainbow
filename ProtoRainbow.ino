@@ -73,7 +73,7 @@ void setup() {
 void loop() {
   //display.clearDisplay();
   hueOffset += 1; 
-  if (hueOffset == (72*loopEvent + 1)){ //insert event on the (loopEvent)th RGB cycle
+  if (hueOffset == (72*loopEvent + 1)){ //insert event on the (loopEvent)th RGB cycle TODO: what is 72???
     //your event goes here, here it blinks on every second cycle
     for (int h = 0; h < 7; h++){
       display.clearDisplay();
@@ -99,11 +99,11 @@ void loop() {
         break;
       }
     }
-    hueOffset = 4;
+    hueOffset = 4; // 4 Represents how may frames have passed? shouldnt it be 7?
     display.clearDisplay();
   }
   else{
-    draw_face(def, hueOffset);
+    draw_face(cheer, hueOffset);
     rainbow_wave(50, 10, frame_delay, 1);
   }
 }

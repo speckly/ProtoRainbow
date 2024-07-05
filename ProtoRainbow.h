@@ -76,7 +76,7 @@ void draw_face(const uint8_t ani[], int hueOffset){
     hue = (wavelength * (i + hueOffset) * (360/imageWidth)) % 360;
     colorMap[i] = hue;
   } 
-  xsine_offset = round(sin((((xsine_period*hueOffset*360/(72*loopEvent))+xsine_phase)%360 )*(M_PI/180))*xsine_amp + xsine_amp);
+  xsine_offset = round(sin((((xsine_period*hueOffset*360/(72*loopEvent))+xsine_phase)%360)*(M_PI/180))*xsine_amp + xsine_amp);
   ysine_offset = round(sin(((ysine_period*hueOffset*360/(72*loopEvent))%360)*(M_PI/180))*ysine_amp);
 
   //draw pixels on panel 1
