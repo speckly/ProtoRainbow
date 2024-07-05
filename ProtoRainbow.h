@@ -76,19 +76,19 @@ void draw_face(const uint8_t ani[], int hueOffset){
     hue = (wavelength * (i + hueOffset) * (360/imageWidth)) % 360;
     colorMap[i] = hue;
   } 
-  xsine_offset = round(sin((((xsine_period*hueOffset*360/(72*loopEvent))+xsine_phase)%360 )*(M_PI/180))*xsine_amp + xsine_amp);
-  ysine_offset = round(sin(((ysine_period*hueOffset*360/(72*loopEvent))%360)*(M_PI/180))*ysine_amp);
+  xsine_offset = round(sin((((xsine_period*hueOffset*360/(72*loop_event))+xsine_phase)%360)*(M_PI/180))*xsine_amp + xsine_amp);
+  ysine_offset = round(sin(((ysine_period*hueOffset*360/(72*loop_event))%360)*(M_PI/180))*ysine_amp);
 
   //draw pixels on panel 1
   display.clearDisplay();
-  for (int r = 0; r < pixelCount; r++){ 
+  for (int r = 0; r < PIXEL_COUNT; r++){ 
     if (ani[r] == 1){
       readcolors = hue2rgb(colorMap[r % 64]);
       display.drawPixelRGB888(r % imageWidth - xsine_offset, (r / imageWidth) + ysine_offset, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);
     }
   }
   //panel 2, x overflows from 64, since we defined one buffer
-  for (int r = 0; r < pixelCount; r++){ //mirrored face
+  for (int r = 0; r < PIXEL_COUNT; r++){ //mirrored face
     if (ani[r] == 1){
       readcolors = hue2rgb(colorMap[r % 64]);
       display.drawPixelRGB888(r % imageWidth + 2 * (64 - r % imageWidth) - 1 + xsine_offset, (r / imageWidth) + ysine_offset, readcolors.CRed, readcolors.CGreen, readcolors.CBlue);

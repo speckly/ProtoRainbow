@@ -1,1 +1,0 @@
-const char *pin = "3825";
