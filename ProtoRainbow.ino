@@ -80,6 +80,12 @@ void loop()
 	std::pair<String, int> result = bt_loop(); // Call the Bluetooth loop function
     if (result.first != "") {
         // Process the result if a valid message was received
+		if (result.first == "matrix_brightness"){
+			display.setBrightness(matrix_brightness);
+
+		} else if (result.second == "led_brightness") {
+			FastLED.setBrightness(led_brightness);
+		}
         Serial.print("Received: ");
         Serial.print(result.first);
         Serial.print(" = ");
