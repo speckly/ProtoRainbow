@@ -17,6 +17,14 @@ BluetoothSerial SerialBT;
 std::pair<String, int> bt_loop() {
     if (SerialBT.available()) {
         String message = SerialBT.readStringUntil(';');
+
+        int equalIndex = message.indexOf('=');
+
+        if (equalIndex == -1) {
+            // This is the face
+            return std::make_pair(message, -1);
+        }
+
         String variableName = message.substring(0, message.indexOf('='));
         String valueString = message.substring(message.indexOf('=') + 1);
 
