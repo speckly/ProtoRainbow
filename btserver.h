@@ -47,7 +47,7 @@ std::pair<String, int> bt_loop() {
             ysine_amp = value;
         } else {
             // Handle unknown variableName case
-            return std::make_pair("", -1);
+            return std::make_pair("unknown", -1);
         }
 
         return std::make_pair(variableName, value);
