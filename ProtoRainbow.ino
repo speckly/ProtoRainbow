@@ -31,7 +31,7 @@ TaskHandle_t Task2;
 
 // This defines the 'on' time of the display is us. The larger this number, the brighter the display
 uint8_t display_draw_time = 30; // 10-50 is usually fine
-uint8_t current_face = def;
+uint8_t *current_face = def;
 bool animate = true;
 
 // rainbow scroll for WS2812B
@@ -93,7 +93,7 @@ void loop()
 			current_face = cheer;
 			animate = true;
 		} else if (result.first == "crispity") {
-			current_face = crispity;
+			current_face = crisp;
 			animate = false;
 		} else if (result.first == "default") {
 			current_face = def;
